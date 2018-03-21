@@ -1,0 +1,17 @@
+﻿@model ParkingLot.Models.Car
+
+<p>Id: @Html.DisplayFor(model => model.ID)</p>
+<p>Model: @Html.DisplayFor(model => model.CarModel)</p>
+<p>Brand: @Html.DisplayFor(model => model.Brand)</p>
+<p>Plate: @Html.DisplayFor(model => model.CarPlate)</p>
+<p>Color: @Html.DisplayFor(model => model.Color)</p>
+<p>Parking Spot: @Html.DisplayFor(model => model.ParkingSpotNumber)</p>
+@{
+    var datetime2 = DateTime.Now;
+    var datetime1 = Model.EnterDate;
+    TimeSpan hours = datetime2.Subtract(datetime1);
+    var hour = datetime1.ToString("t");
+
+}
+<p>Hour of Entrace: @hour</p>
+<p>Time in the Parking Spot: @hours.Hours Hours e @hours.Minutes Minutes</p>

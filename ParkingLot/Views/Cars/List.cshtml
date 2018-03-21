@@ -1,0 +1,172 @@
+﻿@model IEnumerable<ParkingLot.Models.Car>
+
+@{
+    Layout = null;
+}
+
+<div class="container">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Cars</h3>
+            <div class="pull-right">
+                <span class="clickable filter" data-toggle="tooltip" title="Filtrar" data-container="body">
+                    <i class="glyphicon glyphicon-search"></i>
+                </span>
+            </div>
+        </div>
+        <div class="panel-body">
+            <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filtrar Carro" />
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover" id="dev-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Model</th>
+                        <th>Brand</th>
+                        <th>Plate</th>
+                        <th>Color</th>
+                        <th>Parking Spot</th>
+                        <th>Enter Time</th>
+                        <th>
+                            <button class="btnCreate  btn btn-xs btn-primary">
+                                <span class="glyphicon glyphicon-plus" title="Cadastrar" data-toggle="tooltip"></span>
+                            </button>
+                        </th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ID)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CarModel)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Brand)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CarPlate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Color)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ParkingSpotNumber)
+                        </td>
+                        <td>
+                            @{
+                                item.Hour = item.EnterDate.ToString("t");
+
+                            }
+                            @Html.DisplayFor(modelItem => item.EnterDate)
+
+                        </td>
+                        <td>
+                            <button class="btn-edit btn btn-xs btn-primary" data-codigo="@item.ID">
+                                <span class="glyphicon glyphicon-pencil" title="Editar" data-toggle="tooltip"></span>
+                            </button>
+                            <button class="btnDelete btn btn-xs btn-primary" data-codigo="@item.ID">
+                                <span class="glyphicon glyphicon-ok" title="Retirar" data-toggle="tooltip"></span>
+                            </button>
+                            <button class="btn-details btn btn-xs btn-primary" data-codigo="@item.ID">
+                                <span class="glyphicon glyphicon-exclamation-sign" title="Dados" data-toggle="tooltip" />
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="dialog">
+
+</div>
+
+<script>
+      $(function() {
+          $("#dialog").dialog({
+              autoOpen: false,
+              modal: true,
+          }).prev(".ui-dialog-titlebar").css("background", "#428bca").css("border-color", "#428bca");
+      });
+
+
+      $(".btn-details").click(function () {
+        var codigo = $(this).attr("data-codigo");
+        $("#dialog").load("/cars/details/" + codigo).dialog("open");
+        $("#dialog").dialog("option", "title", "Car Details");
+      });
+
+      $(".btnCreate").click(function () {
+          $("#dialog").load("/cars/create/").dialog("open");
+          $("#dialog").dialog("option", "title", "Add new Car");
+      });
+
+      $(".btnDelete").click(function () {
+          var codigo = $(this).attr("data-codigo");
+          $("#dialog").load("/cars/delete/" + codigo).dialog("open");
+          $("#dialog").dialog("option", "title", "Remove a Car");
+      });
+
+      $(".btn-edit").click(function () {
+          var codigo = $(this).attr("data-codigo");
+          $("#dialog").load("/cars/edit/" + codigo).dialog("open");
+          $("#dialog").dialog("option", "title", "Edit a Car");
+      });
+
+    //Filter
+      (function () {
+          'use strict';
+          var $ = jQuery;
+          $.fn.extend({
+              filterTable: function () {
+                  return this.each(function () {
+                      $(this).on('keyup', function (e) {
+                          $('.filterTable_no_results').remove();
+                          var $this = $(this),
+                              search = $this.val().toLowerCase(),
+                              target = $this.attr('data-filters'),
+                              $target = $(target),
+                              $rows = $target.find('tbody tr');
+
+                          if (search == '') {
+                              $rows.show();
+                          } else {
+                              $rows.each(function () {
+                                  var $this = $(this);
+                                  $this.text().toLowerCase().indexOf(search) === -1 ? $this.hide() : $this.show();
+                              })
+                              if ($target.find('tbody tr:visible').size() === 0) {
+                                  var col_count = $target.find('tr').first().find('td').size();
+                                  var no_results = $('<tr class="filterTable_no_results"><td colspan="' + col_count + '">No results found</td></tr>')
+                                  $target.find('tbody').append(no_results);
+                              }
+                          }
+                      });
+                  });
+              }
+          });
+          $('[data-action="filter"]').filterTable();
+      })(jQuery);
+
+      $(function () {
+          // attach table filter plugin to inputs
+          $('[data-action="filter"]').filterTable();
+
+          $('.container').on('click', '.panel-heading span.filter', function (e) {
+              var $this = $(this),
+                  $panel = $this.parents('.panel');
+
+              $panel.find('.panel-body').slideToggle();
+              if ($this.css('display') != 'none') {
+                  $panel.find('.panel-body input').focus();
+              }
+          });
+          $('[data-toggle="tooltip"]').tooltip();
+      })
+
+</script>

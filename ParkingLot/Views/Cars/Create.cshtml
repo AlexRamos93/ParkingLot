@@ -1,0 +1,72 @@
+﻿@model ParkingLot.Models.Car
+@{
+    Layout = null;
+}
+<form id="formCreate">
+    @Html.ValidationSummary(true)
+
+    <div class="editor-label">
+        <p>ID</p>
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.ID)
+        @Html.ValidationMessageFor(model => model.ID)
+    </div>
+
+    <div class="editor-label">
+        <p>Model</p>
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.CarModel)
+        @Html.ValidationMessageFor(model => model.CarModel)
+    </div>
+
+    <div class="editor-label">
+        <p>Brand</p>
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Brand)
+        @Html.ValidationMessageFor(model => model.Brand)
+    </div>
+    <div class="editor-label">
+        <p>Plate Number</p>
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.CarPlate)
+        @Html.ValidationMessageFor(model => model.CarPlate)
+    </div>
+    <div class="editor-label">
+        <p>Color</p>
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Color)
+        @Html.ValidationMessageFor(model => model.Color)
+    </div>
+    <div class="editor-label">
+        <p>Parking Spot</p>
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.ParkingSpotNumber)
+        @Html.ValidationMessageFor(model => model.ParkingSpotNumber)
+    </div>
+
+</form>
+<hr />
+<div>
+    <button class="ui-state-default ui-corner-all" id="btnSave">Save</button>
+    <button class="ui-state-default ui-corner-all" id="btnClose">Cancel</button>
+</div>
+
+<script>
+    $("#btnSave").click(function () {
+        $.post("/cars/create", $("#formCreate").serialize()
+          ).done(function () {
+              $("#divCarros").load("/cars/list");
+          });
+        $("#dialog").dialog("close");
+
+    });
+    $("#btnClose").click(function () {
+        $("#dialog").dialog("close");
+    });
+</script>

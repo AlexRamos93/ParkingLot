@@ -1,0 +1,117 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <meta charset="utf-8" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.theme.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/jquery-ui.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        .row {
+            margin-top: 40px;
+            padding: 0 10px;
+        }
+
+        .clickable {
+            cursor: pointer;
+        }
+
+        .panel-heading div {
+            margin-top: -18px;
+            font-size: 15px;
+        }
+
+            .panel-heading div span {
+                margin-left: 5px;
+            }
+
+        .panel-body {
+            display: none;
+        }
+
+        .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
+            background: #428bca;
+        }
+
+        .navbar-login {
+            width: 305px;
+            padding: 10px;
+            padding-bottom: 0px;
+        }
+
+        .navbar-login-session {
+            padding: 10px;
+            padding-bottom: 0px;
+            padding-top: 0px;
+        }
+
+        .icon-size {
+            font-size: 87px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img alt="Brand" src="~/Content/images/parking-icon-png-17.png" width="30" height="30" />
+                </a>
+                <a class="navbar-brand text-uppercase" href="#">Parking <span class="label label-primary text-capitalize">Lot</span></a>
+            </div>
+        </div>
+    </nav>
+    <br />
+    <br />
+    <div class="jumbotron">
+        <div id="divCarros">
+            @Html.Action("List")
+        </div>
+    </div>
+    <hr />
+
+    <div class="container">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Price Table</h3>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover" id="dev-table">
+                    <thead>
+                        <tr>
+                            <th>Lenght of stay</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>Up to 1 hour</td>
+                        <td>$ 10,00</td>
+                    </tr>
+                    <tr>
+                        <td>Additional minute</td>
+                        <td>$ 0,07</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>

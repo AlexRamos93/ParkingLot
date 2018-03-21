@@ -1,0 +1,59 @@
+﻿@model ParkingLot.Models.Car
+
+<form id="formEdit">
+    <div>
+        <p>ID</p>
+    </div>
+    <div>
+        @Html.EditorFor(model => model.ID)
+    </div>
+    <div>
+        <p>Model</p>
+    </div>
+    <div>
+        @Html.EditorFor(model => model.CarModel)
+    </div>
+    <div>
+        <p>Brand</p>
+    </div>
+    <div>
+        @Html.EditorFor(model => model.Brand)
+    </div>
+    <div>
+        <p>Plate</p>
+    </div>
+    <div>
+        @Html.EditorFor(model => model.CarPlate)
+    </div>
+    <div>
+        <p>Color</p>
+    </div>
+    <div>
+        @Html.EditorFor(model => model.Color)
+    </div>
+    <div>
+        <p>Parking Spot</p>
+    </div>
+    <div>
+        @Html.EditorFor(model => model.ParkingSpotNumber)
+    </div>
+</form>
+<hr />
+
+<div>
+    <button class="ui-state-default ui-corner-all" id="btn-save">Save</button>
+    <button class="ui-state-default ui-corner-all" id="btn-close">Cancel</button>
+</div>
+
+<script>
+    $("#btn-save").click(function () {
+        $.post("/cars/edit", $("#formEdit").serialize()
+          ).done(function () {
+              $("#divCarros").load("/cars/list");
+          });
+        $("#dialog").dialog("close");
+    });
+    $("#btn-close").click(function () {
+        $("#dialog").dialog("close");
+    });
+</script>

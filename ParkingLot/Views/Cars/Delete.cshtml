@@ -1,0 +1,64 @@
+﻿@model ParkingLot.Models.Car
+
+
+<form id="formDelete">
+    <p> You really want remove the <strong>@Html.DisplayFor(model => model.CarModel)</strong>?</p>
+    @{
+        var datetime2 = DateTime.Now;
+        var datetime1 = Model.EnterDate;
+        TimeSpan hours = datetime2.Subtract(datetime1);
+
+        var initalDate = Model.EnterDate;
+        var finalDate = DateTime.Now;
+
+        TimeSpan date = Convert.ToDateTime(finalDate) - Convert.ToDateTime(initalDate);
+        int totalDays = date.Days;
+
+        var hour = hours.Hours;
+        var min = hours.Minutes;
+        int days = totalDays * 24;
+        days = days * 60;
+        min = days + min;
+
+        double resul1;
+        if (hour >= 1 && min > 0)
+        {
+            resul1 = hour - 1;
+            resul1 = resul1 * 60;
+            resul1 = resul1 + min;
+            resul1 = resul1 * 0.07;
+            resul1 += 10;
+        }
+        else
+        {
+            resul1 = 10;
+        }
+
+        string formated = resul1.ToString("N2");
+
+    }
+    <p>Time in the Parking Lot: @totalDays Days, @hours.Hours hours e @hours.Minutes minutes.</p>
+    <p>Total to Pay: @formated dollars.</p>
+
+    @Html.HiddenFor(model => model.ID)
+</form>
+<hr />
+
+<div>
+    <button id="btn-delete" class="ui-state-default ui-corner-all">Retirar</button>
+    <button id="btn-close" class="ui-state-default ui-corner-all">Cancelar</button>
+</div>
+
+<script>
+    $("#btn-delete").click(function () {
+        $.post("/cars/delete", $("#formDelete").serialize()
+          ).done(function () {
+              $("#divCarros").load("/cars/list");
+          });
+        $("#dialog").dialog("close");
+    });
+    $("#btn-close").click(function () {
+        $("#dialog").dialog("close");
+    });
+</script>
+
